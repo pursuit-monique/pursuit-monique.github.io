@@ -16,6 +16,7 @@ Earthquake Geographic Data
 -- The ability to view further detailed information via a link to USGS's detailed library for researchers.
 -- Mobile friendly in case danger strikes.
 
+
 #  Using:
 -- **Leaflet.js** https://leafletjs.com/reference.html#geojson
 -- **Earthquake catalog** https://earthquake.usgs.gov/fdsnws/event/1/

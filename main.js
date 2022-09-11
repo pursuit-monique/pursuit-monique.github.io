@@ -35,51 +35,44 @@ fetch(
     console.log(json.features[1].geometry.coordinates[0]);
     // You can do what you like with the result here.
     L.geoJSON(json, {
+      pointToLayer: function (feature, latlng) {
+        return new L.CircleMarker(latlng, {
+          radius: 5,
+          color: "#FF0000",
+        });
+      },
+
       style: function (feature) {
-        return { color: feature.properties.color };
+        let color = "";
+        if (feature.properties.mag < 1) {
+          color = "green";
+        } else if (feature.properties.mag < 2) {
+          color = "yellow";
+        } else if (feature.properties.mag < 3) {
+          color = "orange";
+        } else if (feature.properties.mag <= 5) {
+          color = "red";
+        }
+        return { color: color };
       },
     })
       .bindPopup(function (layer) {
-        return layer.feature.properties.description;
+        return (
+          layer.feature.properties.place +
+          "<br>" +
+          layer.feature.properties.type +
+          "<br>" +
+          layer.feature.properties.mag +
+          " mag" +
+          "<br>" +
+          "<a href=" +
+          `${layer.feature.properties.url}` +
+          ">" +
+          "More information." +
+          "</a>"
+        );
       })
       .addTo(map);
-    // let polygon2 = L.circle(
-    //   [
-    //     json.features[1].geometry.coordinates[0],
-    //     json.features[1].geometry.coordinates[1],
-    //     json.features[1].geometry.coordinates[2],
-    //   ],
-    //   {
-    //     //  for bubble map distrobution
-    //     color: "black",
-    //     fillColor: "#ffffff",
-    //     fillOpacity: 0.5,
-    //     radius: 500,
-    //   }
-    // ).addTo(map);
-    //     features
-    // :
-    // Array(326)
-    // [0 … 99]
-    // 0
-    // :
-    // geometry
-    // :
-    // coordinates
-    // :
-    // Array(3)
-    // 0
-    // :
-    // -116.7776667
-    // 1
-    // :
-    // 33.6633333
-    // 2
-    // :
-    // 11.008
-    // length
-    // :
-    // 3
     console.log(json);
   })
   .catch((error) => {
