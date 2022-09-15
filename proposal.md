@@ -1,5 +1,5 @@
 # 9-2-front-end-project
-Earthquake Geographic Data
+**Earthquake Geographic Data**
 
 # A project to track historical Earthquake data by date and year.
 
@@ -17,6 +17,14 @@ Earthquake Geographic Data
 -- Mobile friendly in case danger strikes.
 
 
-#  Using:
+# Using:
 -- **Leaflet.js** https://leafletjs.com/reference.html#geojson
 -- **Earthquake catalog** https://earthquake.usgs.gov/fdsnws/event/1/
+
+#  Findings:
+-- USGS geoJSON data is descriptive for datapoints, but data includes epoch timestamp under time: key.
+-- method of translation is Math.floor(new Date().getTime()/1000.0) 
+-- URL api call for data is yyyy-mm-dd format, ISO8601
+-- 2022-09-12T23:40:50, Implicit UTC timezone.  -- TODO later.
+-- 2022-09-12T23:40:50+00:00, Explicit timezone. -- TODO later.
+-- Maximum is 30 days advancement.

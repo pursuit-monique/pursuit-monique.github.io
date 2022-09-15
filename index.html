@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Historical Earthquake Data</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
@@ -16,6 +16,12 @@
  <script type="text/javascript" src="main.js" defer></script>
 </head>
 <body>
+    <image src="https://cdn.pixabay.com/photo/2014/01/30/21/29/earth-255165__340.jpg"></image>
+    <form id="timeSubmit">
+        <label>Input the start date: <input type="date" id="startDate"  required pattern="\d{4}-\d{2}-\d{2}"> </input></label>
+        <label>Input the end date: <input type="date" id="endDate" required pattern="\d{4}-\d{2}-\d{2}"> </input></label>
+        <input type="submit" value="Get Data" name="submit"></form></input>
+    </form>
     <div id="map"></div>
     
 </body>
