@@ -41,17 +41,16 @@ startDate.addEventListener("blur", (event) => {
 
 // MAP DRAWING STARTS
 
-let map = L.map("map").fitWorld();
+let map = L.map("map", {
+  minZoom: 2.5,
+  maxZoom: 10,
+});
 
-// L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-//   maxZoom: 10,
-//   attribution: "© OpenStreetMap",
-// }).addTo(map);
+L.control.scale().addTo(map);
 
 L.tileLayer(
   "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}",
   {
-    maxZoom: 10,
     attribution:
       'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>',
   }
@@ -61,6 +60,8 @@ map.locate({ setView: true, maxZoom: 16 });
 
 // MAP DRAWING ENDS
 
+getMapData("1984-11-30", "1984-11-02"); //Default map rendering on site load.
+
 // ADD GeoJSON DATA?
 function getMapData(startDate, endDate) {
   fetch(
@@ -68,7 +69,8 @@ function getMapData(startDate, endDate) {
   )
     .then((response) => response.json())
     .then((json) => {
-      console.log(json.features[1].geometry.coordinates[0]);
+      console.log("this script is running");
+      //   console.log(json.features[1].geometry.coordinates[0]);
       // You can do what you like with the result here.
       L.geoJSON(json, {
         pointToLayer: function (feature, latlng) {
@@ -97,6 +99,11 @@ function getMapData(startDate, endDate) {
           return { color: color, radius: radius };
         },
       })
+        .on("click", function (ev) {
+          //DOM event handler for each 'Feature'.
+          alert(ev.latlng); // ev is an event object (MouseEvent in this case)
+        })
+
         .bindPopup(function (layer) {
           return (
             layer.feature.properties.place +

@@ -2,8 +2,25 @@
 body {
     padding: 0;
     margin: 0;
+    background: #f5d1b8;
 }
+
+
+a {
+    color: #747c92;
+    text-decoration: dotted;
+}
+
+a:hover{
+    color: skyblue;
+}
+
+a:visited{
+    text-decoration: line-through;
+}
+
+
 html, body, #map {
-    height: 100%;
-    width: 100vw;
+    height: 75%;
+    width: 75%;
 }
