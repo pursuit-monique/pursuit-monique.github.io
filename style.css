@@ -2,25 +2,190 @@
 body {
     padding: 0;
     margin: 0;
-    background: #f5d1b8;
+    background: #efe6dd;
+    color: #400601;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+label{
+    text-shadow: 1px 1px silver;
+}
+input[type=date]{
+    background: none;
+    border: 0px none #114232;
+    border-bottom: 2px solid #bb4430;
+    margin: 10px;
+    padding: 3px;
+    box-shadow: 2px inset;
+}
+
+input[type=date]:Lselection{
+    border-bottom: 2px solid #114232;
+    border: 1px solid #114232;
+}
+
+input[type=date]:disabled{
+    border-bottom: 2px solid #bb4430;
+    color:silver;
+}
+
+
+input[type=submit]{
+    color: bisque;
+    background: #114232;
+    border: 0px none red;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 5px;
+    box-shadow: 5px 5px silver;
+}
+
+
+input[type=submit]:hover{
+    background: #7ebdc2;
+    transition: background 0.3s ease;
+}
+
+input[type=submit]:active{
+    /* box-shadow: inset 0px 0px 5px white; */
+    transform: translateY(4px);
+    box-shadow: 5px 2px silver;
+    transition: transform 0.3s ease;
+    transition: box-shadow 0.3s ease;
 }
 
 
 a {
-    color: #747c92;
+    color: #2BA889;
     text-decoration: dotted;
 }
 
 a:hover{
-    color: skyblue;
+    transition: color 0.3s ease;
+    color: #BAB255;
 }
 
 a:visited{
+    transition: color 0.3s ease;
     text-decoration: line-through;
+    color: #CD3F38;
 }
 
 
-html, body, #map {
-    height: 75%;
-    width: 75%;
+.header{
+    padding-left: 2vw;
+    width: 98vw;
+    height: 10%;
+    background: #3B593F;
+    color: bisque
 }
+
+.hero{
+    height: 23.5vh;
+    width: 100vw;
+    background: orange;
+    background-image: url(https://cdn.wallpapersafari.com/4/69/AHtGj4.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    font-size: 100%;
+}
+
+.hero img{
+    color:#2BA889;
+    height: 100%;
+    width: auto;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,0,1) 45%, rgba(0,212,255,0) 100%);
+}
+
+.hero h1{
+    color:#D9D4BA;
+    padding-left: 5vw;
+    position: relative;
+    bottom: 60px;
+    text-decoration: underline solid #bb4430 4px;
+    display: inline-block;
+    text-shadow: 2px 2px #400601;
+    box-shadow: 2px 2px #2BA889;
+}
+  
+.map{
+    background: #3B593F;
+    display: grid;
+    grid-template-columns: 0.2fr 3fr 1.7fr;
+    border: 5px double #3B593F;
+    border-radius: 10px;
+    box-shadow: 5px 5px silver;
+    margin: 2.5vh 1vh;
+}
+
+.map .mapleft{
+    background: white;
+    /* padding: 20px; */
+    border-radius: 10px 0px 0px 10px;
+    padding: 10vh 5vh;
+}
+
+.map .mapright{
+    background: white;
+    /* padding: 20px; */
+    border-radius: 0px 10px 10px 00px;
+    padding: 10vh 0vw;
+    width: 95%;
+    text-align: center;
+
+
+}
+
+
+#map { 
+    height: auto;
+    width: 55vw; 
+    border: 2px solid #400601;
+    }
+
+
+    .footer{
+        text-align: right;
+        text-justify: distribute;
+        padding-top: 4vh;
+        width: 100vw;
+        height: 5%;
+        background: #3B593F;
+        /* padding-bottom: 2vh; */
+    }
+    @media only screen and (max-width: 600px ) {
+        .header{
+            width: 98vw;
+        }
+        .hero{
+            width: 100vw;
+        }
+        .hero h1{
+            font-size: large;
+            bottom: 90px;
+            box-shadow: none;
+        }
+
+        .map {
+          grid-template-columns: 4fr;
+          width: 90%;
+          margin: 10% auto;
+        }
+        #map{
+           height: 50vh;
+           width: auto; 
+           margin: 10% 0%;
+        }
+        .mapleft{
+            background: white;
+            border-radius: 10px 10px 10px 10px;
+            padding: 10vh 10vw;
+        }
+        .mapright{
+            background: red;
+            border-radius: 10px;
+            padding: 10vh 10vw;
+            width: 100%;
+        }
+      }

@@ -1,19 +1,22 @@
-const todaysDate = new Date();
+//Basic Parsers
+const dateConv = (datestr) => new Date(datestr).toISOString().substring(0, 10); //epoch to utc for json
 
-let test = todaysDate;
-// test.setDate(todaysDate.getDate() - 30);
+const svrStatus = (
+  str,
+  color //Fat arrow function to parse status
+) =>
+  (document.querySelector(
+    "#status"
+  ).innerHTML = `<strong>Status:</strong> <span style="color:${color}">${str}</span>`);
 
-const dateFormat = (date) => {
-  if (date.getMonth().length === 1) {
-    return `${date.getFullYear()}-
-        ${String(date.getMonth() + 1).padStart(2, "0")}-${date.getDate()}`;
-  } else {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  }
-};
-
-const dateSubtract = (date) =>
-  dateFormat(new Date(date.setDate(date.getDate() - 30)));
+function nameParse(str) {
+  //Town name parser
+  let name = str.split("of");
+  console.log(name.length);
+  return name.length > 1
+    ? { area: name[0], name: name[name.length - 1] }
+    : { area: "Epicenter", name: name[0] };
+}
 
 // FORMS INITLAIZING
 
@@ -21,22 +24,31 @@ let startDate = document.getElementById("startDate");
 let endDate = document.getElementById("endDate");
 startDate.min = "1970-01-01";
 startDate.max = new Date().toLocaleDateString("en-ca");
-// document.getElementById("endDate").setAttribute("disabled", "");
+endDate.disabled = true;
 
 startDate.addEventListener("blur", (event) => {
   event.preventDefault();
+  //   console.log(event);
+  if (isNaN(event)) {
+    svrStatus("Select a proper date.", "#bb4430");
+  }
   let correctDate = new Date(startDate.value);
   correctDate = correctDate.getTime() - 2592000000;
-  console.log(correctDate);
+  //   console.log(correctDate);
   correctDate = new Date(correctDate);
-  console.log(correctDate.getMonth());
-  //   correctDate = correctDate.toISOString().split("T")[0];
-  console.log(correctDate.toISOString().substring(0, 10));
-  document.getElementById("endDate").min = correctDate
-    .toISOString()
-    .substring(0, 10);
+  //   console.log(correctDate.getMonth());
+  //   console.log(correctDate.toISOString().substring(0, 10));
+  document.getElementById("endDate").disabled = false;
+  document.getElementById("endDate").min = dateConv(correctDate);
   document.getElementById("endDate").max = startDate.value;
-  //   document.getElementById("endDate").setAttribute("enabled", "");
+});
+
+document.getElementById("timeSubmit").addEventListener("submit", (event) => {
+  //submit button
+  event.preventDefault();
+  let startDate = document.getElementById("startDate").value;
+  let endDate = document.getElementById("endDate").value;
+  getMapData(startDate, endDate);
 });
 
 // MAP DRAWING STARTS
@@ -69,8 +81,7 @@ function getMapData(startDate, endDate) {
   )
     .then((response) => response.json())
     .then((json) => {
-      console.log("this script is running");
-      //   console.log(json.features[1].geometry.coordinates[0]);
+      console.log("json script is running...");
       // You can do what you like with the result here.
       L.geoJSON(json, {
         pointToLayer: function (feature, latlng) {
@@ -102,8 +113,25 @@ function getMapData(startDate, endDate) {
         .on("click", function (ev) {
           //DOM event handler for each 'Feature'.
           alert(ev.latlng); // ev is an event object (MouseEvent in this case)
+          console.log(ev);
+          //ev.layer.feature.properties.place}
+          document.querySelector(
+            ".mapright"
+          ).innerHTML = `<h6 style="color:silver"><em>${
+            nameParse(ev.layer.feature.properties.place).area
+          } of</em></h6><h3> ${
+            nameParse(ev.layer.feature.properties.place).name
+          }</h3>
+          <h4>A ${ev.layer.feature.properties.mag} Magnitude ${
+            ev.layer.feature.properties.type
+          }</h4><h5> At ${dateConv(ev.layer.feature.properties.time)}</h5>
+          <p><i class="fa fa-map-marker" aria-hidden="true"></i>  <strong>Latittude:</strong> ${
+            ev.latlng.lat
+          } <strong>Longitude: </strong> ${ev.latlng.lng} <br><br>
+          <i class="fa fa-external-link" aria-hidden="true"></i>  <a href="${
+            ev.layer.feature.properties.url
+          }">Link to more information.</a>  `;
         })
-
         .bindPopup(function (layer) {
           return (
             layer.feature.properties.place +
@@ -121,17 +149,14 @@ function getMapData(startDate, endDate) {
           );
         })
         .addTo(map);
-      console.log(json);
+
+      json.metadata.status === 200
+        ? svrStatus(json.metadata.status, "#7ebdc2")
+        : svrStatus(json.metadata.status, "#bb4430");
     })
     .catch((error) => {
       // You can do what you like with the error here.
-      console.log(error);
+      svrStatus(error, "#bb4430");
+      console.log(json);
     });
 }
-
-document.getElementById("timeSubmit").addEventListener("submit", (event) => {
-  event.preventDefault();
-  let startDate = document.getElementById("startDate").value;
-  let endDate = document.getElementById("endDate").value;
-  getMapData(startDate, endDate);
-});
