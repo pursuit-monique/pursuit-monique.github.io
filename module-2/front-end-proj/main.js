@@ -35,15 +35,13 @@ startDate.min = "1970-01-01";
 startDate.max = new Date().toLocaleDateString("en-ca");
 endDate.disabled = true;
 
-startDate.addEventListener("blur", (event) => {
+startDate.addEventListener("input", (event) => {
   event.preventDefault();
-  //   console.log(event);
-  if (isNaN(event)) {
+  if (event.returnValue === false) {
     svrStatus("Select a proper date.", "#bb4430");
   }
   let correctDate = new Date(startDate.value);
   correctDate = correctDate.getTime() - 2592000000;
-  correctDate = new Date(correctDate);
   endDate.disabled = false;
   endDate.min = dateConv(correctDate);
   endDate.max = startDate.value;
@@ -89,7 +87,10 @@ function getMapData(startDate, endDate) {
     .then((json) => {
       console.log("json script is running...");
       // You can do what you like with the result here.
-      L.geoJSON(json, {
+      var jsonGroup = new L.LayerGroup();
+      jsonGroup.addTo(map);
+      console.log(currentLayer);
+      var currentLayer = new L.geoJSON(json, {
         pointToLayer: function (feature, latlng) {
           return new L.CircleMarker(latlng, {
             radius: 5,
@@ -125,7 +126,6 @@ function getMapData(startDate, endDate) {
         .on("click", function (ev) {
           //DOM event handler for each 'Feature'.
           console.log(ev);
-          let country = "";
           // fetch(
           //   // `https://trueway-geocoding.p.rapidapi.com/ReverseGeocode?location=${ev.latlng.lat}%2C${ev.latlng.lng}&language=en`,
           //   // options
@@ -176,15 +176,19 @@ function getMapData(startDate, endDate) {
             "More information." +
             "</a>"
           );
-        })
-        .addTo(map);
-
+        });
+      console.log(currentLayer);
+      console.log(jsonGroup);
+      jsonGroup.addLayer(currentLayer);
+      console.log(jsonGroup);
+      // .addTo(map);
+      // console.log(CircleMarker.getLayers());
       json.metadata.status === 200
         ? svrStatus(json.metadata.status, "#7ebdc2")
         : svrStatus(json.metadata.status, "#bb4430");
     })
     .catch((error) => {
       svrStatus(error, "#bb4430");
-      console.log(json);
+      console.log(error);
     });
 }

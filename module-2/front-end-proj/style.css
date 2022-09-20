@@ -161,8 +161,10 @@ body {
 
   .footer {
     text-align: right;
+    /* position: fixed;
+    bottom: 1vh; */
     /* text-justify: distribute; */
-    padding-top: 4vh;
+    padding: 1.5vh;
     width: 100vw;
     /* height: 5%; */
     background: #3b593f;
