@@ -197,6 +197,7 @@ body {
 .block ul{
     margin: 20% auto;
 }
+
   @media only screen and (max-width: 600px) {
     .header {
       width: 98vw;
@@ -220,15 +221,24 @@ body {
       width: auto;
       margin: 10% 0%;
     }
-    .mapleft {
-      background: white;
+
+    .footer {
+      width: 100%;
+      padding: 20px 0px;
+    }
+
+    .footer p {
+      text-align: center;
+      padding-right: 10px;
+    }
+
+    .map .mapleft {
       border-radius: 10px 10px 10px 10px;
       padding: 10vh 10vw;
     }
-    .mapright {
-      background: red;
+    .map .mapright {
       border-radius: 10px;
-      padding: 10vh 10vw;
+      padding: 10vh 0vw;
       width: 100%;
     }
     .main{
