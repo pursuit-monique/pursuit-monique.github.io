@@ -74,6 +74,24 @@ L.tileLayer(
 
 map.locate({ setView: true, maxZoom: 16 });
 
+//Legend
+
+var legend = L.control({ position: "topright" });
+
+legend.onAdd = function () {
+  var div = L.DomUtil.create("div", "legend");
+  div.innerHTML += "<h4>Magnetude</h4>";
+  div.innerHTML += '<i style="background: blue"></i><span>1</span><br>';
+  div.innerHTML += '<i style="background: green"></i><span>2</span><br>';
+  div.innerHTML += '<i style="background: yellowgreen"></i><span>3</span><br>';
+  div.innerHTML += '<i style="background: orange"></i><span>4</span><br>';
+  div.innerHTML += '<i style="background: red"></i><span>5+</span><br>';
+
+  return div;
+};
+
+legend.addTo(map);
+
 // MAP DRAWING ENDS
 
 getMapData("1984-11-30", "1984-11-02"); //Default map rendering on site load.
